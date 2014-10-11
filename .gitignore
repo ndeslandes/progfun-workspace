@@ -4,4 +4,6 @@
 .project
 .settings
 .worksheet
+lib_managed
+target
 bin
