@@ -31,8 +31,10 @@ https://class.coursera.org/progfun-005/lecture
   - Functions as Objects
   - Subtyping and Generics
   - Objects Everywhere
-- Friday 10/17 - 2h - Week 4: Types and Pattern Matching
+  - Assignements 4 - Huffman
+- Friday 10/17 - 6h - Week 4: Types and Pattern Matching
   - Variance
   - Decomposition 
   - Pattern Matching
   - Lists
+  - Assignements 4 - Huffman 
