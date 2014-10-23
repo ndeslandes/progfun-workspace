@@ -37,4 +37,13 @@ https://class.coursera.org/progfun-005/lecture
   - Decomposition 
   - Pattern Matching
   - Lists
-  - Assignements 4 - Huffman 
+  - Assignements 4 - Huffman
+- Wednesday 10/22 - 2h - Week 5: Lists
+  - More Functions on Lists
+- Thursday 10/23 - 4h - Week 5: Lists
+  - Pairs and Tuples 
+  - Implicit Parameters
+  - Higher-Order List Functions
+  - Reduction of Lists
+  - Reasoning About Concat
+  - A Larger Equational Proof on Lists
