@@ -46,6 +46,24 @@ https://class.coursera.org/progfun-005/lecture
   - Higher-Order List Functions
   - Reduction of Lists
   - Reasoning About Concat
-  - A Larger Equational Proof on Lists  
-- Thursday 10/23 - 1h - Week 6: Collections
+  - A Larger Equational Proof on Lists
+- Thursday 10/23 - 4h - Week 6: Collections
   - Other Collections
+  - Combinatorial Search and For-Expressions
+  - Combinatorial Search Example
+  - Assignements 6 - Anagrams
+- Thursday 10/30 - 3h - Week 6: Collections
+  - Queries with For
+  - Translation of For
+  - Maps
+  - Putting the Pieces Together
+- Thursday 10/30 - 1h - Week 7: Lazy Evaluation
+  - Structural Induction on Trees
+  - Streams
+- Monday 11/3 - 4h
+  - Assignements 7 - Bloxorz
+- Tuesday 11/4 - 3h - Week 7: Lazy Evaluation
+  - Lazy Evaluation
+  - Computing with Infinite Sequences
+  - Case Study: the Water Pouring Problem
+  - Course Conclusion

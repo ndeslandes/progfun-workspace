@@ -10,7 +10,7 @@ trait Solver extends GameDef {
   /**
    * Returns `true` if the block `b` is at the final position
    */
-  def done(b: Block): Boolean = b.b1 == goal && b.b2 == goal
+  def done(b: Block): Boolean = b.isStanding && b.b1 == goal
 
   /**
    * This function takes two arguments: the current block `b` and
@@ -28,10 +28,7 @@ trait Solver extends GameDef {
    * It should only return valid neighbors, i.e. block positions
    * that are inside the terrain.
    */
-  def neighborsWithHistory(b: Block, history: List[Move]): Stream[(Block, List[Move])] = {
-    val legals = b.legalNeighbors.toStream
-    for ((nextBlock, move) <- legals) yield (nextBlock, move :: history)
-  }
+  def neighborsWithHistory(b: Block, history: List[Move]): Stream[(Block, List[Move])] = (for ((newBlock, move) <- b.legalNeighbors) yield (newBlock, move :: history)).toStream
 
   /**
    * This function returns the list of neighbors without the block
@@ -39,9 +36,7 @@ trait Solver extends GameDef {
    * make sure that we don't explore circular paths.
    */
   def newNeighborsOnly(neighbors: Stream[(Block, List[Move])],
-                       explored: Set[Block]): Stream[(Block, List[Move])] = {
-    neighbors.filterNot { case (block, moves) => explored.contains(block) }
-  }
+                       explored: Set[Block]): Stream[(Block, List[Move])] = neighbors.filterNot(n => explored.contains(n._1))
 
   /**
    * The function `from` returns the stream of all possible paths
@@ -68,31 +63,28 @@ trait Solver extends GameDef {
    */
   def from(initial: Stream[(Block, List[Move])],
            explored: Set[Block]): Stream[(Block, List[Move])] = {
-    if (initial.isEmpty) {
-      Stream()
-    } else {
-      val (block, history) = initial.head
 
-      val neighbors = neighborsWithHistory(block, history)
-      val newNeighbours = newNeighborsOnly(neighbors, explored)
+    if (initial.isEmpty) Stream.empty
+    else {
+      val more = for {
+        p <- initial
+        n <- newNeighborsOnly(neighborsWithHistory(p._1, p._2), explored)
+      } yield n
 
-      val newMoves = initial.tail #::: newNeighbours
-      initial.head #:: from(newMoves, explored + block)
+      initial #::: from(more, explored ++ initial.map(_._1))
     }
   }
 
   /**
    * The stream of all paths that begin at the starting block.
    */
-  lazy val pathsFromStart: Stream[(Block, List[Move])] = 
-    from(Stream((startBlock, List())), Set())
+  lazy val pathsFromStart: Stream[(Block, List[Move])] = from(List((startBlock, Nil)).toStream, Set())
 
   /**
    * Returns a stream of all possible pairs of the goal block along
    * with the history how it was reached.
    */
-  lazy val pathsToGoal: Stream[(Block, List[Move])] =
-    pathsFromStart.filter { case (block, moves) => done(block) }
+  lazy val pathsToGoal: Stream[(Block, List[Move])] = pathsFromStart.filter(p => done(p._1))
 
   /**
    * The (or one of the) shortest sequence(s) of moves to reach the
@@ -102,8 +94,8 @@ trait Solver extends GameDef {
    * the first move that the player should perform from the starting
    * position.
    */
-  lazy val solution: List[Move] = pathsToGoal match {
-    case Stream() => List()
-    case (_, path) #:: _ => path.reverse
+  lazy val solution: List[Move] = {
+    val ptg = pathsToGoal
+    if (ptg.isEmpty) Nil else ptg.head._2
   }
 }
